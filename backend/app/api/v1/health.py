@@ -1,0 +1,9 @@
+from fastapi import APIRouter
+
+router = APIRouter()
+
+
+@router.get("/status")
+async def status():
+    """API status endpoint."""
+    return {"status": "ok", "version": "1.0.0"}
