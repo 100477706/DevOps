@@ -1,0 +1,85 @@
+name: Sprint Branch Management
+
+on:
+  # Triggered manually by the PM at the start of each sprint
+  workflow_dispatch:
+    inputs:
+      sprint_number:
+        description: "Sprint number (e.g., 1, 2, 3...)"
+        required: true
+        type: string
+      action:
+        description: "Action to perform"
+        required: true
+        type: choice
+        options:
+          - create-sprint-branch
+          - merge-sprint-to-develop
+
+jobs:
+  create-sprint-branch:
+    name: "🌿 Create sprint-${{ github.event.inputs.sprint_number }} branch"
+    if: github.event.inputs.action == 'create-sprint-branch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout develop
+        uses: actions/checkout@v4
+        with:
+          ref: develop
+          fetch-depth: 0
+
+      - name: Create sprint branch from develop
+        run: |
+          SPRINT_BRANCH="sprint-${{ github.event.inputs.sprint_number }}"
+          git checkout -b "$SPRINT_BRANCH"
+          git push origin "$SPRINT_BRANCH"
+          echo "✅ Branch '$SPRINT_BRANCH' created from develop."
+
+  merge-sprint-to-develop:
+    name: "🔀 Merge sprint-${{ github.event.inputs.sprint_number }} into develop"
+    if: github.event.inputs.action == 'merge-sprint-to-develop'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create Pull Request sprint → develop
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: develop
+          head: sprint-${{ github.event.inputs.sprint_number }}
+          title: "✅ [Sprint ${{ github.event.inputs.sprint_number }}] Merge sprint-${{ github.event.inputs.sprint_number }} → develop"
+          body: |
+            ## Sprint ${{ github.event.inputs.sprint_number }} – Entrega
+
+            Este PR integra todas las tareas completadas del **sprint-${{ github.event.inputs.sprint_number }}** en la rama `develop`.
+
+            ### Checklist de cierre de sprint
+            - [ ] Todas las historias de usuario del sprint están completadas.
+            - [ ] Las pruebas pasan en el entorno de integración.
+            - [ ] La demo ha sido presentada al equipo.
+            - [ ] La retrospectiva del sprint ha sido documentada.
+
+            ### Retrospectiva
+            _El Scrum Master debe completar esta sección._
+
+            **¿Qué salió bien?**
+            -
+
+            **¿Qué podría mejorar?**
+            -
+
+            **Acciones de mejora para el próximo sprint:**
+            -
+          labels: "sprint-${{ github.event.inputs.sprint_number }}"
+          draft: false

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📋 Tablero Kanban del Proyecto
+    url: https://github.com/100477706/DevOps/projects
+    about: Consulta el tablero Kanban para ver el estado de todas las tareas del proyecto.
+  - name: 📖 Documentación del Proyecto
+    url: https://github.com/100477706/DevOps/tree/main/docs
+    about: Consulta la documentación técnica, ADRs y guías de contribución.

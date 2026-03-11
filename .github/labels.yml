@@ -1,0 +1,76 @@
+# GitHub Labels Configuration for NewsRadar
+# This file documents all labels used in the project.
+# Labels are created manually via GitHub UI or using the GitHub CLI:
+#   gh label create "label-name" --color "RRGGBB" --description "Description"
+#
+# Quick setup command (run once per repository):
+#   bash .github/scripts/create-labels.sh
+
+labels:
+  # ──────────────────────────────────────────
+  # TYPE LABELS
+  # ──────────────────────────────────────────
+  - name: "new"
+    color: "0075ca"
+    description: "Nueva funcionalidad"
+
+  - name: "bug"
+    color: "d73a4a"
+    description: "Algo no funciona correctamente"
+
+  - name: "docs"
+    color: "0052cc"
+    description: "Mejora o adición de documentación"
+
+  # ──────────────────────────────────────────
+  # STATUS LABELS
+  # ──────────────────────────────────────────
+  - name: "todo"
+    color: "e4e669"
+    description: "Pendiente de empezar"
+
+  - name: "in-progress"
+    color: "fbca04"
+    description: "En desarrollo actualmente"
+
+  - name: "review-needed"
+    color: "0e8a16"
+    description: "Listo para revisión de código"
+
+  # ──────────────────────────────────────────
+  # SPRINT LABELS
+  # ──────────────────────────────────────────
+  - name: "sprint-1"
+    color: "bfd4f2"
+    description: "Sprint 1: Configuración del entorno y arquitectura"
+
+  - name: "sprint-2"
+    color: "a8d8a8"
+    description: "Sprint 2: DevOps skeleton y API base"
+
+  - name: "sprint-3"
+    color: "f7c6c7"
+    description: "Sprint 3: Ingesta RSS y motor de alertas"
+
+  - name: "sprint-4"
+    color: "ffd59e"
+    description: "Sprint 4: Notificaciones y panel de mando"
+
+  - name: "sprint-5"
+    color: "d4b8e0"
+    description: "Sprint 5: Preparación final y competición"
+
+  # ──────────────────────────────────────────
+  # PRIORITY LABELS
+  # ──────────────────────────────────────────
+  - name: "alta"
+    color: "e11d48"
+    description: "Prioridad alta – bloquea otras tareas"
+
+  - name: "media"
+    color: "f97316"
+    description: "Prioridad media – importante pero no bloqueante"
+
+  - name: "baja"
+    color: "84cc16"
+    description: "Prioridad baja – nice-to-have"

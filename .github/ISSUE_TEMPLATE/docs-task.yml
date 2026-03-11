@@ -1,0 +1,50 @@
+name: "📄 Documentación"
+description: "Tarea de documentación para el proyecto NewsRadar."
+title: "[DOCS] "
+labels: ["docs", "todo"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Tarea de Documentación
+        Describe qué documentación necesita ser creada, actualizada o revisada.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "Descripción"
+      description: "¿Qué documentación se necesita? ¿Por qué?"
+      placeholder: "Crear el ADR-003 para documentar la decisión de usar MongoDB como base de datos."
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: "Alcance"
+      description: "¿Qué archivos o secciones se verán afectados?"
+      placeholder: "docs/adr/ADR-003-base-de-datos.md"
+
+  - type: dropdown
+    id: sprint
+    attributes:
+      label: "Sprint"
+      options:
+        - sprint-1
+        - sprint-2
+        - sprint-3
+        - sprint-4
+        - sprint-5
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: "Prioridad"
+      options:
+        - alta
+        - media
+        - baja
+    validations:
+      required: true

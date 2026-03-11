@@ -1,0 +1,94 @@
+version: "3.9"
+
+services:
+  # ──────────────────────────────────────────────────────────────
+  # MongoDB – Base de Datos
+  # ──────────────────────────────────────────────────────────────
+  mongodb:
+    image: mongo:7.0
+    container_name: newsradar-mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER:-admin}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:-changeme}
+      MONGO_INITDB_DATABASE: ${MONGO_DB:-newsradar}
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - ./docker/mongo-init.js:/docker-entrypoint-initdb.d/init.js:ro
+    networks:
+      - newsradar-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  # ──────────────────────────────────────────────────────────────
+  # Backend – FastAPI
+  # ──────────────────────────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: ${BUILD_TARGET:-production}
+    container_name: newsradar-backend
+    restart: unless-stopped
+    environment:
+      MONGO_URI: mongodb://${MONGO_ROOT_USER:-admin}:${MONGO_ROOT_PASSWORD:-changeme}@mongodb:27017/${MONGO_DB:-newsradar}?authSource=admin
+      MONGO_DB: ${MONGO_DB:-newsradar}
+      SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      ENVIRONMENT: ${ENVIRONMENT:-development}
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - newsradar-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  # ──────────────────────────────────────────────────────────────
+  # Frontend – React (Vite)
+  # ──────────────────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: ${BUILD_TARGET:-production}
+    container_name: newsradar-frontend
+    restart: unless-stopped
+    environment:
+      VITE_API_URL: ${VITE_API_URL:-http://localhost:8000}
+    ports:
+      - "3000:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - newsradar-network
+
+# ──────────────────────────────────────────────────────────────
+# Volumes & Networks
+# ──────────────────────────────────────────────────────────────
+volumes:
+  mongodb_data:
+    driver: local
+
+networks:
+  newsradar-network:
+    driver: bridge

@@ -1,0 +1,79 @@
+name: "🐛 Bug Report"
+description: "Reportar un error encontrado en el sistema NewsRadar."
+title: "[BUG] "
+labels: ["bug", "todo"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Reporte de Error
+        Proporciona toda la información posible para que el equipo pueda reproducir y solucionar el error.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "Descripción del Bug"
+      description: "¿Qué ocurrió? ¿Qué esperabas que ocurriera?"
+      placeholder: "Al crear una alerta, el sistema devuelve un error 500 aunque los datos son correctos."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: "Pasos para Reproducir"
+      description: "Lista detallada de pasos para reproducir el bug."
+      placeholder: |
+        1. Autenticarse como usuario gestor.
+        2. Ir a la sección de Alertas.
+        3. Hacer clic en "Nueva Alerta".
+        4. Rellenar el formulario con datos válidos.
+        5. Pulsar "Guardar".
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: "Comportamiento Esperado"
+      placeholder: "La alerta debería crearse correctamente y aparecer en la lista."
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: "Comportamiento Actual"
+      placeholder: "Se muestra un error 500: Internal Server Error."
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: "Logs / Capturas de Pantalla"
+      description: "Adjunta logs relevantes o capturas de pantalla."
+
+  - type: dropdown
+    id: sprint
+    attributes:
+      label: "Sprint"
+      options:
+        - sprint-1
+        - sprint-2
+        - sprint-3
+        - sprint-4
+        - sprint-5
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: "Prioridad"
+      options:
+        - alta
+        - media
+        - baja
+    validations:
+      required: true

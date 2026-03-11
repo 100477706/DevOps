@@ -1,0 +1,69 @@
+name: "✨ Nueva Función"
+description: "Solicitar una nueva funcionalidad para el proyecto NewsRadar."
+title: "[NEW] "
+labels: ["new", "todo"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Nueva Funcionalidad
+        Describe la funcionalidad que deseas implementar con el máximo detalle posible.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "Descripción"
+      description: "¿Qué funcionalidad quieres añadir? ¿Por qué es necesaria?"
+      placeholder: "Como usuario gestor, quiero poder crear alertas RSS para que se me notifique cuando aparezcan noticias relevantes."
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: "Criterios de Aceptación"
+      description: "Lista de condiciones que deben cumplirse para considerar la tarea completada."
+      placeholder: |
+        - [ ] El usuario puede crear una alerta con un descriptor de búsqueda.
+        - [ ] La alerta se activa según la expresión cron configurada.
+        - [ ] Se envía notificación por email y al buzón interno.
+    validations:
+      required: true
+
+  - type: textarea
+    id: technical-notes
+    attributes:
+      label: "Notas Técnicas"
+      description: "Información técnica relevante, endpoints afectados, modelos de datos, etc."
+      placeholder: "Afecta a los endpoints POST /alerts y GET /alerts de la API."
+
+  - type: dropdown
+    id: sprint
+    attributes:
+      label: "Sprint"
+      description: "¿En qué sprint se realizará esta tarea?"
+      options:
+        - sprint-1
+        - sprint-2
+        - sprint-3
+        - sprint-4
+        - sprint-5
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: "Prioridad"
+      options:
+        - alta
+        - media
+        - baja
+    validations:
+      required: true
+
+  - type: input
+    id: estimate
+    attributes:
+      label: "Estimación (Story Points)"
+      placeholder: "p. ej., 3"
